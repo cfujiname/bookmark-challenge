@@ -8,6 +8,6 @@ end
 feature 'Page shows all bookmarks' do
   scenario 'show list of bookmarks' do
     visit('/bookmarks')
-    expect(page).to have_content 'List of all bookmarks'
+    expect(page).to have_content ('google.com')
   end
 end
