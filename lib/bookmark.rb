@@ -1,7 +1,9 @@
 class Bookmark
 
-  def all
-   'List of all bookmarks'
+  def self.all
+    [
+      'google.com',
+      'gmail.com'
+    ]
   end
-
 end

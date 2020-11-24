@@ -36,9 +36,8 @@ I want to see a complete list of my bookmarks
   - create feature test this route
   - create unit test for this route for #all method
   - implement the code according to rspec results
-    - think: a list of bookmarks can be represented at its best in an array
-    - therefore, the method #all should print an array of bookmarks
-  - refactor the model method to print an array of bookmarks
+    - think: the #all method can be solely a class method, calling self.all in the model
+  
 
 
 
