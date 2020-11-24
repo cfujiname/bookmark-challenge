@@ -3,8 +3,8 @@
 ## User story 1
 
 ```
-As a user, 
-So I can see all my bookmarks
+As a user
+So I can access websites quickly
 I want to see a complete list of my bookmarks
 ```
 
