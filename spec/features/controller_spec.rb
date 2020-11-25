@@ -11,3 +11,16 @@ feature 'Page shows all bookmarks' do
     expect(page).to have_content ('http://www.google.com')
   end
 end
+
+feature 'Viewing bookmarks' do
+  scenario 'User can see list of bookmarks' do
+    connection = PG.connect(dbname: 'bookmarks_test')
+    connection.exec("INSERT INTO bookmark_manager_test (url) VALUES ('http://www.makersacademy.com');")
+    connection.exec("INSERT INTO bookmark_manager_test (url) VALUES ('http://www.destroyallsoftware.com');")
+    connection.exec("INSERT INTO bookmark_manager_test (url) VALUES ('http://www.google.com');")
+    visit('/bookmarks')
+    expect(page).to have_content('http://www.makersacademy.com')
+    expect(page).to have_content('http://www.google.com')
+    expect(page).to have_content('http://www.destroyallsoftware.com')
+  end
+end
