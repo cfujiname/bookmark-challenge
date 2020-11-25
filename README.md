@@ -56,9 +56,21 @@ I would like to add the site's address and title to bookmark manager
 3. CREATE TABLE bookmark_manager (id SERIAL PRIMARY KEY, url VARCHAR(60));
 4. Use CRUD (create, read, update and delete) for SQL
 5. Insert data into database using:
-- INSERT INTO bookmark_manager (url) VALUES ('http://www.makersacademy.com');
-
-
+  - INSERT INTO bookmark_manager (url) VALUES ('http://www.makersacademy.com');
+  - play with SELECT and UPDATE commands to get used to SQL language
+6. Install gem 'pg' and run bundle install
+7. Integrate PostgreSQL with Ruby through pg
+  - Check on irb how PG connects ruby to database using:
+    ```
+    require 'pg'
+    connection = PG.connect(dbname: 'bookmarks')
+    result = connection.exec('SELECT * FROM bookmark_manager')
+    result.each { |bookmark| p bookmark }
+    ```
+    - this should show the entries in the database
+8. Require pg in the bookmark.rb
+9. Refactor the .all method to connect to the database through pg, mapping the result
+10. All tests should pass
 
 
 
