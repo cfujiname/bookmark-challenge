@@ -8,7 +8,6 @@
 4. Initialise rspec
 5. Set up app.rb requiring sinatra
 6. Set up lib, spec and views folders
-7. 
 
 
 ## User story 1
@@ -41,15 +40,9 @@ I want to see a complete list of my bookmarks
     - then refactor the what needs to be refactored
 
 ### More
+
   - the list of bookmarks is hardcoded at the moment
   - it is time to progress to a database
-
-## User story 2
-```
-As a user
-So that I can save a website
-I would like to add the site's address and title to bookmark manager
-```
 
 1. Create database in PostgreSQL using CREATE DATABASE and CREATE TABLE commands and create db/migrations files
 2. CREATE DATABASE bookmarks; then acces this database with \c
@@ -71,7 +64,17 @@ I would like to add the site's address and title to bookmark manager
 8. Require pg in the bookmark.rb
 9. Refactor the .all method to connect to the database through pg, mapping the result
 10. All tests should pass
+11. Connect TablePlus to your database if you want
 
+--> for the testing enviroment, create a database and table with the same columns
+
+
+## User story 2
+```
+As a user
+So that I can save a website
+I would like to add the site's address and title to bookmark manager
+```
 
 
 
