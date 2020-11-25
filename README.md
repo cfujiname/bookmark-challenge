@@ -37,7 +37,27 @@ I want to see a complete list of my bookmarks
   - create unit test for this route for #all method
   - implement the code according to rspec results
     - think: the #all method can be solely a class method, calling self.all in the model
-  
+    - to show the list of bookmarks, instead of hardcoding 'list of bookmarks', create a @bookmarks = Bookmark.all in app.rb and in the bookmarks.erb, call <%= @bookmarks %>
+    - then refactor the what needs to be refactored
+
+### More
+  - the list of bookmarks is hardcoded at the moment
+  - it is time to progress to a database
+
+## User story 2
+```
+As a user
+So that I can save a website
+I would like to add the site's address and title to bookmark manager
+```
+
+1. Create database in PostgreSQL using CREATE DATABASE and CREATE TABLE commands and create db/migrations files
+2. CREATE DATABASE bookmarks; then acces this database with \c
+3. CREATE TABLE bookmark_manager (id SERIAL PRIMARY KEY, url VARCHAR(60));
+4. Use CRUD (create, read, update and delete) for SQL
+5. Insert data into database using:
+- INSERT INTO bookmark_manager (url) VALUES ('http://www.makersacademy.com');
+
 
 
 
