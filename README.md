@@ -27,6 +27,7 @@ I want to see a complete list of my bookmarks
   - run rspec
 
   Diagram: 
+[![bookmark-manager.png](https://i.postimg.cc/FRsCrVJT/bookmark-manager.png)]
 
 2. Then start testing how to show all bookmarks
   - create /bookmarks route
@@ -87,7 +88,28 @@ As a user
 So that I can save a website
 I would like to add a bookmark to the bookmark manager
 ```
-### feature test
-1. To implement, start with feature test ( to see the route and what needs to be done, just add the route you want to the url and read Sinatra's message)
+
+1. To implement, start with feature test (to see the route and what needs to be done, just add the route you want to the url and read Sinatra's message)
+2. Implement the route in app.rb to see what the route shows
+3. Refactor the test to be able to fill in a form and click on a button to submit the request
+4. Rspec will fail (Unable to find field "url" that is not disabled): we don't have a form or field yet in our page
+5. In app.rb, add the erb 'file' that will be used to call this feature
+6. Tests will still fail as there is no view file to be called (No such file or directory @ rb_sysopen - /Users/cristinafujiname/Consolidation/bookmark-challenge/views/bookmarks/new.erb)
+7. Tests will still fail as (Unable to find button "Submit" that is not disabled): there is no button in the form I have just created
+8. Implement a button 'submit' in the form
+9. Test fails (expected to find text "http://www.hello.com" in ""): the method at the moment in the form is GET (by default), so we need to change it to POST as it is a POST request
+10. Test still fails (expected to find text "http://www.hello.com" in "POST /bookmarks"): Sinatra has no POST in app.rb, so we need to create a POST request
+11. In app.rb, print params and some stringified message and run rspec: 
+```
+{"url"=>"http://www.hello.com", "Submit"=>""}
+"stringified message"
+```
+  - this is printed in the terminal
+  - and there is still an error (expected to find text "http://www.hello.com" in "stringified message")
+  - to solve this, we need to get the 'url' from the form that was submitted (params)
+  - there needs to be database connection to be able to pass this url to the table
+  - execute the connection to insert the url to the table
+  - redirect, after clicking submit, to the /bookmarks route which shows all the added bookmarks
+
 
 

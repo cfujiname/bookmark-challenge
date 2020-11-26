@@ -5,16 +5,23 @@ require_relative './lib/bookmark'
 class BookmarkManager < Sinatra::Base
 
   get '/' do
-    erb(:index)
+    erb:'index'
   end
 
   get '/bookmarks' do
     @bookmarks = Bookmark.all
-    erb(:bookmarks)
+    erb:'bookmarks'
   end
 
   get '/bookmarks/new' do
-    'new bookmark'
+    erb:'bookmarks/new'
+  end
+
+  post '/bookmarks' do
+    url = params['url']
+    connection = PG.connect(dbname: 'bookmarks')
+    connection.exec("INSERT INTO bookmark_manager (url) VALUES ('#{url}')")
+    redirect '/bookmarks'
   end
 
 

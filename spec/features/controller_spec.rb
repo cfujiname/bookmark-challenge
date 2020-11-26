@@ -28,6 +28,8 @@ end
 feature 'Adding bookmarks' do
   scenario 'User can add bookmarks' do
     visit('/bookmarks/new')
-    expect(page).to have_content('new bookmark')
+    fill_in('url', with: 'http://www.hello.com')
+    click_button('Submit')
+    expect(page).to have_content('http://www.hello.com')
   end
 end
