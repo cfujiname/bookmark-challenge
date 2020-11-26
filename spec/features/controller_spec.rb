@@ -24,3 +24,10 @@ feature 'Viewing bookmarks' do
     expect(page).to have_content('http://www.destroyallsoftware.com')
   end
 end
+
+feature 'Adding bookmarks' do
+  scenario 'User can add bookmarks' do
+    visit('/bookmarks/new')
+    expect(page).to have_content('new bookmark')
+  end
+end

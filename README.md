@@ -67,21 +67,27 @@ I want to see a complete list of my bookmarks
 11. Connect TablePlus to your database if you want
 
 --> for the testing enviroment, create a database and table with the same columns
---> refactor .all method to accept the test database environment as well as add requirements in spec_helper (ENV['RACK_ENV'] = 'test')
---> refactor unit test to accept a test database connection
---> setup database to clear test database at each call (spec/setup_test_database.rb)
---> populate spec and feature tests with the connection to the test database
---> change requirements in spec_helper to access the setup_test_database file each time before the tests run
---> be aware that your setup_test_database file has a bethod with the same name to be able to run
 
+--> refactor .all method to accept the test database environment as well as add requirements in spec_helper (ENV['RACK_ENV'] = 'test')
+
+--> refactor unit test to accept a test database connection
+
+--> setup database to clear test database at each call (spec/setup_test_database.rb)
+
+--> populate spec and feature tests with the connection to the test database
+
+--> change requirements in spec_helper to access the setup_test_database file each time before the tests run
+
+--> be aware that your setup_test_database file has a method with the same name to be able to run
 
 
 ## User story 2
 ```
 As a user
 So that I can save a website
-I would like to add the site's address and title to bookmark manager
+I would like to add a bookmark to the bookmark manager
 ```
-
+### feature test
+1. To implement, start with feature test ( to see the route and what needs to be done, just add the route you want to the url and read Sinatra's message)
 
 
