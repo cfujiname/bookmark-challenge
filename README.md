@@ -111,5 +111,5 @@ I would like to add a bookmark to the bookmark manager
   - execute the connection to insert the url to the table
   - redirect, after clicking submit, to the /bookmarks route which shows all the added bookmarks
 
-
+12. Refactor time: extract the database connection from app.rb and implement the create method in the model, refactor also the feature tests to accept the method .create
 

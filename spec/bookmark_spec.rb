@@ -22,4 +22,11 @@ describe Bookmark do
       expect(bookmarks).to include('http://www.destroyallsoftware.com')
     end
   end
+
+  describe '.create' do
+    it 'should create a new bookmark' do
+      Bookmark.create(url: 'http://www.hello.com')
+      expect(Bookmark.all).to include 'http://www.hello.com'
+    end
+  end
 end
