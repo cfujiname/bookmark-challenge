@@ -1,0 +1,1 @@
+ALTER TABLE bookmark_manager ADD COLUMN title VARCHAR(60);

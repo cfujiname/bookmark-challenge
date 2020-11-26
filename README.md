@@ -113,3 +113,23 @@ I would like to add a bookmark to the bookmark manager
 
 12. Refactor time: extract the database connection from app.rb and implement the create method in the model, refactor also the feature tests to accept the method .create
 
+## Adding 'title' to the database
+
+1. For organisation purposes, we will add title to each URL, so it looks nicer
+2. Alter the tables in the database to accept title with the URLs (for test and normal)
+3. The user needs to be able to add the title of the bookmarks as well using a form, so update the feature test .create to accept title as well as the url, linking the url to the title with href - for this, create a new feature test file create_bookmark_spec and extract from controller_spec what is related to create
+4. Tests fail as we don't have a field 'title' in our view: pass the title field to new.erb
+5. The field title needs to be passed to the controller as it needs now 2 parameters
+6. Unit tests will fail as our method .create still only accepts the url parameter. Add title parameter to test and now, because we have a list of bookmarks, we need to call method .first to fetch the correct one
+7. To pass the tests, we need to adjust our method in the model to accept the title and insert the field into the database connection as well - and asking the database to return id, url and title
+8. Feature tests still fail as we need to pass the title there as well: view_bookmark_spec is a new file and the test is extracted from controller, adjusted with the title parameter and the page expects to have a link eith title and href
+9. Unit test for .all needs to be refactored as well to accept an instance of the class and then expectations will be related to the length of the array and using id, url and title, as well as the first positions of the array
+10. The test above will ask you to basically to update the .all method in the model to accept a new instance of Bookmark with all three parameters included, fetching those infos from the database
+11. After that, we will need to initalize id, title and url in the class for these parameters to be passed correctly
+12. In .create, we need to refactor it so it creates a new object of Bookmark and checks the values of it instead of relying on the result of calling .all
+13. Here, create an instance that uses the method .create to include url and title to the database
+14. Create also a persisted_data variable that connects to the database and queries from there according to id.
+15. Now in the model, it is necessary to pass to the new Bookmark object, the parameters id, url and title according to their position in the array
+16. Refactor the persisted_data into a method in a file called database_helpers.rb, which takes id as a parameter and the connection queries according to id
+17. In the unit test, pass the persisted_data with the id parameter and expect the id to eq the persisted data passed with id parameter
+
