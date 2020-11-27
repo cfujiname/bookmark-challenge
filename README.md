@@ -9,6 +9,7 @@
 5. Set up app.rb requiring sinatra
 6. Set up lib, spec and views folders
 
+(feature, view, controller, unit, model, refactor controller  )
 
 ## User story 1
 
@@ -27,7 +28,7 @@ I want to see a complete list of my bookmarks
   - run rspec
 
   Diagram: 
-[![bookmark-manager.png](https://i.postimg.cc/FRsCrVJT/bookmark-manager.png)]
+![bookmark-manager.png](https://i.postimg.cc/FRsCrVJT/bookmark-manager.png)
 
 2. Then start testing how to show all bookmarks
   - create /bookmarks route
@@ -154,5 +155,22 @@ I want to delete a bookmark
 9. In the model, create the .delete method with the PG connection similar to the one in the controller, as we are now extracting this connection to the model instead of leaving it in the controller
 10. Tests should pass now, then refactor the controller for, instead of having the connection, to just delete a bookmark through its id and redirect to '/bookmarks'
 
+## User story 4
 
-(feature, view, controller, unit, model, refactor controller  )
+```
+As a user
+So I can change a bookmark in Bookmark Manager
+I want to update a bookmark
+```
+1. Start as usual with feature test, creating a new update_bookmark_spec.rb file
+2. First part of the test is to create a bookmark for the context, then visit the the path '/bookmarks' and expect the page to have the link
+3. Second part is to catch the first bookmark of the array and click 'edit' by it, expecting the current path to be '/bookmarks/id/edit'
+4. Fill in the form with url and title fields, click submit
+5. Expect the current path to be '/bookmarks/ as we want to redirect always to this path
+6. Expect the page to not have the previous link and have the new link
+7. Tests will fail as we need to change out view to accept this edit form and button with a get method
+8. Now, we need to implement in the model the get path with the edit route
+9. Then create another view for edit edit.erb and create the view with PATCH value and POST method
+10. In the controller, add the patch method
+
+

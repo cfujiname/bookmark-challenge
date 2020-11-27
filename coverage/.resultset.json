@@ -92,6 +92,27 @@
           null
         ]
       },
+      "/Users/cristinafujiname/Consolidation/bookmark-challenge/spec/features/update_bookmark_spec.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null
+        ]
+      },
       "/Users/cristinafujiname/Consolidation/bookmark-challenge/spec/features/view_bookmarks_spec.rb": {
         "lines": [
           1,
@@ -106,6 +127,6 @@
         ]
       }
     },
-    "timestamp": 1606469790
+    "timestamp": 1606486003
   }
 }

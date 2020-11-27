@@ -37,4 +37,6 @@ describe Bookmark do
       expect(Bookmark.all.length).to eq 0
     end
   end
+
+  
 end
