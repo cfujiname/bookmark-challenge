@@ -83,6 +83,7 @@ I want to see a complete list of my bookmarks
 
 
 ## User story 2
+
 ```
 As a user
 So that I can save a website
@@ -133,3 +134,25 @@ I would like to add a bookmark to the bookmark manager
 16. Refactor the persisted_data into a method in a file called database_helpers.rb, which takes id as a parameter and the connection queries according to id
 17. In the unit test, pass the persisted_data with the id parameter and expect the id to eq the persisted data passed with id parameter
 
+## User story 3
+
+```
+As a user
+So I can remove my bookmark from Bookmark Manager
+I want to delete a bookmark
+```
+
+1. Start with the feature test: the user could be able to delete a bookmark when he visists the '/bookmarks' page and clicks on a delete button beside the chosen url, then he sees the page without the url he just deleted
+2. Create a new features file delete_bookmark_spec.rb
+3. For the test, we need to create the context: create a bookmark, visit the route '/bookmarks', expect the page to have the link, then click on delete that is related to that specific bookmark, then expect the page to be in the current path '/bookmarks' an dnot to have the link and title of the url he just deleted
+  - Capybara method 'first' is looking into the first element in the class bookmark
+4. Test fails (expected to find css ".bookmark" at least 1 time but there were no matches): the class bookmark is not yet in the html list and delete button is as well inexistent
+5. Go to index.erb to fix it, add the 'delete' button, which will be a form with method post
+6. In the controller, create a delete function and print the params in the terminal when running the tests, to see which params are used with the method 'delete'
+7. Refactor the method to make a connection to the test database, asking it to delete from the test database where the id is the params id, redirecting to '/bookmarks' afterwards
+8. Create the unit test for the .delete by creating a bookmark and then deleting it with id as a parameter, then expecting the length of Bookmark.all to eq 0
+9. In the model, create the .delete method with the PG connection similar to the one in the controller, as we are now extracting this connection to the model instead of leaving it in the controller
+10. Tests should pass now, then refactor the controller for, instead of having the connection, to just delete a bookmark through its id and redirect to '/bookmarks'
+
+
+(feature, view, controller, unit, model, refactor controller  )

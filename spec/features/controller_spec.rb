@@ -1,6 +1,6 @@
-feature 'Page shows Hello World' do
-  scenario 'shows Hello World' do
+feature 'Page shows Bookmark Manager' do
+  scenario 'shows Bookmark Manager' do
     visit('/')
-    expect(page).to have_content 'Hello World'
+    expect(page).to have_content 'Bookmark Manager'
   end
 end
