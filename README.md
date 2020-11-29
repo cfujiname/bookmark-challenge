@@ -171,6 +171,17 @@ I want to update a bookmark
 7. Tests will fail as we need to change out view to accept this edit form and button with a get method
 8. Now, we need to implement in the model the get path with the edit route
 9. Then create another view for edit edit.erb and create the view with PATCH value and POST method
-10. In the controller, add the patch method
+10. In the controller, add the patch method with a connection to the database with the UPDATE command, taking url and title where there is a specific id
+11. Create the unit test for the method .update by creating the context of a new variable that equals to creating a new bookmark, then another updated_bookmark variable with id, updated url and title
+12. Expectations must be_a Bookmark, id equals id and title and url equals the new data passed into updated_bookmark
+13. Rspec still fails as it does not recognize the method .update, so it needs to be implemented in the model
+14. Implement the method by extracting the connection from the controller to the model with respective syntax
+15. Refactor the model to fetch the params from the database, keep the redirection
+16. For organisational purposes and better user experience, it would be better if the user could see which url and title he wants to update in the edit form
+17. For that, we need to pass a Bookmark object that wraps the data for that specific bookmark - when we call .all, all the bookmarks are passed, so to pull only one bookmark out we could implement a method .find
+18. In the controller, change the edit path to accept Bookmark.find with id params
+19. In the unit test, implememnt a test for .find method
+20. Implement the .find method in the model with the connection to database and the result connecting to database, selectring from table where id is the selected id, creating a new bookmark object with the parameters
+21. Refactor the edit.erb to look for the @bookmark.id
 
 

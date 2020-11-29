@@ -3,9 +3,7 @@ feature ' Update bookmarks' do
     bookmark = Bookmark.create(url: 'http://www.hello.com', title: 'hello')
     visit('/bookmarks')
     expect(page).to have_link('hello', href: 'http://www.hello.com')
-
     first('.bookmark').click_button 'Edit'
-    
     expect(current_path).to eq "/bookmarks/#{bookmark.id}/edit"
     fill_in('url', with: 'http://www.goodbye.com')
     fill_in('title', with: 'goodbye')
