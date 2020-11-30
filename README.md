@@ -201,7 +201,11 @@ I want to update a bookmark
 
 ## Validations
 
-1. Start by adding a feature test (another scenario) for invalid url - visit bookmarks, fill in url with not an url, click submit and expect not to have the wrong url and to have 'You must submit a valid url
+1. Start by adding a feature test (another scenario) for invalid url - visit bookmarks, fill in url with not an url and the title, click submit and expect not to have the wrong url and to have 'You must submit a valid url'
+2. Test will fail: to pass the test in the controller, we will use Ruby uri mode - require uri in the controller and if params url - then URI::regexp will check if it is a valid url, then Bookmark.create...., else a flash notice will appear to say that user must submit valid url
+3. For flash to happen, we need to install sinatra-flash gem and require in the controller, as well as have the sessions enabled and register Sinatra::Flash
+4. After setting up flash, it is necessary to update the index.erb view to display the flash notice, inserting a paragraph with the flash notice after the entire code - the test should now pass
+5. Now we need to refactor the validation logic into the model 
 
 
 

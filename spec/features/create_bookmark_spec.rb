@@ -8,10 +8,11 @@ feature 'Adding bookmarks' do
   end
 
   scenario 'Bookmark must be a valid url' do
-    visit('bookmarks/new')
+    visit('/bookmarks/new')
     fill_in('url', with: 'this is not a url')
+    fill_in('title', with: 'fake url')
     click_button('Submit')
-    expect(page).not_to have_content 'this is not a url' 
-    expect(page).to have_link 'You must sumbit a valid url'
+    expect(page).not_to have_content 'this is not a url'
+    expect(page).to have_content 'You must submit a valid URL'
   end
 end
