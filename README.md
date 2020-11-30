@@ -184,4 +184,26 @@ I want to update a bookmark
 20. Implement the .find method in the model with the connection to database and the result connecting to database, selectring from table where id is the selected id, creating a new bookmark object with the parameters
 21. Refactor the edit.erb to look for the @bookmark.id
 
+## Extracting database setup object
+
+1. This is kind of a refactor: you can see in the model that we are repeating the connection each time we create a new method. We shall extract this connection and assign it to an object that will handle the connection
+2. In the model, define the variable 'result' to use the object DatabaseConnection with the .query method, taking the sql command as an argument
+3. Extract the database connection logic to the object - start by writing a test in a new spec file database_connection_spec.rb - the test should check the .setup method at first and, setting up a connection through PG, expecting PG to receive :connect with the database name
+4. The object should then .setup('database_test')
+5. Now we need to implement the .setup method in the model, creating a new file and class
+6. Write the .setup method, having the database name as a paramenter - this method should create a PG.connect
+7. Write another test to check if the connection is persistent, expecting the object.connection to eq the connection
+8. Create a database_connection.rb file and implement the methods .setup with the database as a parameter and .connection
+9. Now we need to use the object to setup the connection de facto: create a database_connection_setup.rb file and write the conditional statement that will connect the database to the correct one, either test or normal - and don't forget to require the file in app.rb 
+10. Now in the model, we can use the object and a .query method to be able to query the info from the database in the all its methods, requiring database_connection and unrequiring pg in the file, removing the PG connection from the methods
+11. Implement a test for .query, setting up a connetion variable that sets up the database and expecting the connection to receive :exec with the desired query, and the object.query must retrieve the query
+12. To pass the test, we need to create a .query method in the database_connection class, which takes sql as a parameter
+
+## Validations
+
+1. Start by adding a feature test (another scenario) for invalid url - visit bookmarks, fill in url with not an url, click submit and expect not to have the wrong url and to have 'You must submit a valid url
+
+
+
+
 
