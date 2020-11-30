@@ -206,6 +206,10 @@ I want to update a bookmark
 3. For flash to happen, we need to install sinatra-flash gem and require in the controller, as well as have the sessions enabled and register Sinatra::Flash
 4. After setting up flash, it is necessary to update the index.erb view to display the flash notice, inserting a paragraph with the flash notice after the entire code - the test should now pass
 5. Now we need to refactor the validation logic into the model 
+6. First, refactor the unit test for .create to not create a bookmark if the url is invalid: in the same test, add a 'it' that will not create a bookmark if the url is not correct - create a new bookmark instance with wrong parameters, then expect Bookmark.all to be empty as it will not be created
+7. Now we move to the model and refactor the .create method to return false unless it is definitely a url before the result is queried (don't forget to require uri otherwise it will not work)
+8. Create a private method .is_url? taking url as a parameter and making the URI check if it is, so we can extract the URI check from the controller
+9. Back to the controller, extract the if statement and refactor the code - all tests should pass now
 
 
 

@@ -28,6 +28,11 @@ describe Bookmark do
       expect(bookmark.url).to eq 'http://www.gmail.com'
       expect(bookmark.title).to eq 'Gmail'
     end
+
+    it 'should not create a new bookmark if the url is invalid' do
+      Bookmark.create(url: 'not a bookmark', title: 'fake bookmark')
+      expect(Bookmark.all).to be_empty
+    end  
   end
 
   describe '.delete' do
@@ -56,7 +61,7 @@ describe Bookmark do
       expect(result).to be_a Bookmark
       expect(result.id).to eq bookmark.id
       expect(result.title).to eq 'hola'
-      expect(result.url).to eq 'http://www.hola.com' 
+      expect(result.url).to eq 'http://www.hola.com'
     end
   end
 end

@@ -1,4 +1,5 @@
 require_relative 'database_connection'
+require 'uri'
 
 class Bookmark
 
@@ -14,6 +15,7 @@ class Bookmark
   end
 
   def self.create(url:, title:)
+    return false unless is_url?(url)
     result = DatabaseConnection.query(
       "INSERT INTO bookmark_manager (url, title)
       VALUES('#{url}', '#{title}')
@@ -49,4 +51,10 @@ class Bookmark
     @url = url
   end
   
+  private
+
+  def self.is_url?(url)
+    url =~ /\A#{URI::regexp(['http', 'https'])}\z/
+  end
 end
+
