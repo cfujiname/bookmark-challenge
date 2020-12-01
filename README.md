@@ -229,7 +229,24 @@ I want to add a Comment to a Bookmark
 8. If we run the server now, we can see that when we access the page, an error 'undefined method 'comments'' appears - we need to write a unit test (create instance, query database, comment will be bookmarks.comment.first and expect comment['text'] to eq the text comment) and implement the model with #comments method (basically the query selecting from comments....) - tests should then pass
 9. Refactoring: update the controller to accept model Comment that will handle the comment creation
 10. Then update the database_helpers to query different tables and update tests that require persisted_data to accept the bookmark_manager table as a parameter
-11. Create a comment_spec.rb 
+11. Create a comment_spec.rb and require database_helpers as well as comment and bookmark
+12. The test should check .create, so we need to start it with creating a new bookmark object with url and title, also creating a comment with text and bookmark_id
+13. Create a persisted_data variable that equals to itself with table and id(commment.id) as parameters
+14. Expect the comment to be_a comment, the comment.id to eq the persisted_data.first['id'], the comemnt.text to eq 'test comment' and the comment.bookmark_id to eq the bookmark.id 
+15. We still need to create the Comment class - so create it and pass class methods to it: .create, taking bookmark_id and text as parameters
+16. This method should have a result - which equals the DatabaseConnection.query, while inserting comments to the comments table
+17. Create a new comment object wuere the id, text and cookmark_id are the result from querying data from the database in the positions specified
+18. We calso need to initialise id, text and bookmark_id - and tests should pass now
+19. Creation of comments is now using the Comment model - so we can update the finding the comments to the Comment model 
+20. In bookmark_spec, we will create a double for the Comment class, and the method comments will use the Comment class to test it
+21. The test starts with creating a bookmark object as always, expecting now the double comment_class to receive the method :where with the bookmark id, and bookmark.comments takes the comment_class as parameter - test fails
+22. To pass the test, we need to go back to the class Bookmark and require_relative comment.rb, refactoring the comments method to accept the comment_class that equals Comment as a parameter. The method itself should call .where on the comment_class with bookmark_id: id as a parameter (before, the comments method was querying from the database, but we have already extracted it to the Comment class) - feature tests will fail as we need to update the Comment model with the .where method
+23. Start by testing .where in the comment_spec: create the context with creating a bookmark object and two comment objects
+24. Create variables comments (equals to Comment.where, taking bookmark id as a parameter), comment (which is the comments.first) and the persisted_data that equals itself with parameters table and comment id, querying these data from the database
+25. Expect the length of comments (which is retrieved as an array - remember result of creating a comment) to eq 2, the comment.id to eq persisted_data.first['id'], expect the comment.text to eq 'test comment' and the comment.bookmark_id to eq the bookmark.id - test will fail
+26. We need to update the Comment model to pass the test by creating the method .where, taking the bookmark_id as a parameter, querying a result and mapping the result
+27. Now we need to update the index.erb to handle the Comment model, iterating the comments to print the comment.text
+
 
 
 
