@@ -211,6 +211,29 @@ I want to update a bookmark
 8. Create a private method .is_url? taking url as a parameter and making the URI check if it is, so we can extract the URI check from the controller
 9. Back to the controller, extract the if statement and refactor the code - all tests should pass now
 
+## User story 5
+
+```
+As a user
+So that I can make interesting notes
+I want to add a Comment to a Bookmark
+```
+
+1. For this, we need to understand the relationshio between a bookmark and a comment: a bookmark (parent) can have many comments (child), but a comment will always belong to one specific bookmark, creating a one-to-many relationship
+2. We will add another table to the database where the comments will be stored and related to a certain bookmark id and in setup_test_database.rb, we need to include the comments table to be truncated as well
+3. Start with a feature test for adding and viewing comments - create a new file add_view_comments_spec.rb and write a test while creating a new instance, visiting the route, finding the first bookmark and clicking on add comment, filling the comment field, clicking button submit, expecting current path to be /bookmarks/id/comments/new and expecting first bookmark to have content 'comment content' --> test fails
+4. Now, we slowly make the tests pass: first, in the index.erb, add the comment form and field, with the buttons and path specified in the test
+5. Set up the route in the controller and create new view folder for comments and a file new.erb, creating a form with method post where the user can sumbit a text comment and click a button submit
+6. Go to the controller and update it to handle the comment creation using a connection to test database and inserting to params comment with bookmark id to the test table - test will still fail as we still need to be able to show the comments in the view
+7. And back to the view, iterate through the bookmark.comments and print a list of comments with a text. Tests fail massively but all will be fine soon
+8. If we run the server now, we can see that when we access the page, an error 'undefined method 'comments'' appears - we need to write a unit test (create instance, query database, comment will be bookmarks.comment.first and expect comment['text'] to eq the text comment) and implement the model with #comments method (basically the query selecting from comments....) - tests should then pass
+9. Refactoring: update the controller to accept model Comment that will handle the comment creation
+10. Then update the database_helpers to query different tables and update tests that require persisted_data to accept the bookmark_manager table as a parameter
+11. Create a comment_spec.rb 
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-require 'bookmark' 
+require 'bookmark'
 require 'database_helpers'
 
 describe Bookmark do
@@ -22,7 +22,7 @@ describe Bookmark do
   describe '.create' do
     it 'should create a new bookmark' do
       bookmark = Bookmark.create(url: 'http://www.gmail.com', title: 'Gmail')
-      persisted_data = persisted_data(id: bookmark.id)
+      persisted_data = persisted_data(table: 'bookmark_manager', id: bookmark.id)
       expect(bookmark).to be_a Bookmark
       expect(bookmark.id).to eq persisted_data.first['id']
       expect(bookmark.url).to eq 'http://www.gmail.com'
@@ -62,6 +62,15 @@ describe Bookmark do
       expect(result.id).to eq bookmark.id
       expect(result.title).to eq 'hola'
       expect(result.url).to eq 'http://www.hola.com'
+    end
+  end
+
+  describe '#comments' do
+    it 'should return a list of comments related to the bookmark' do
+      bookmark = Bookmark.create(url: 'http://www.ina.com', title: 'Ina')
+      DatabaseConnection.query("INSERT INTO comments (id, text, bookmark_id) VALUES(1, 'Test comment', #{bookmark.id});")
+      comment = bookmark.comments.first
+      expect(comment['text']).to eq 'Test comment'
     end
   end
 end
