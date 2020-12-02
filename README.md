@@ -1,5 +1,15 @@
 # bookmark-challenge
 
+## Specification
+* Show a list of bookmarks 
+* Add new bookmarks 
+* Delete bookmarks 
+* Update bookmarks 
+* Comment on Bookmarks 
+* Tag bookmarks into categories 
+* Filter bookmarks by tag 
+* Users manage their bookmarks
+
 ## First steps
 
 1. Set up environment with Gemfile
@@ -199,7 +209,13 @@ I want to update a bookmark
 11. Implement a test for .query, setting up a connetion variable that sets up the database and expecting the connection to receive :exec with the desired query, and the object.query must retrieve the query
 12. To pass the test, we need to create a .query method in the database_connection class, which takes sql as a parameter
 
-## Validations
+## User story 5 - Validations
+
+```
+As a user
+So that the bookmarks I save are useful
+I want to only save a valid URL
+```
 
 1. Start by adding a feature test (another scenario) for invalid url - visit bookmarks, fill in url with not an url and the title, click submit and expect not to have the wrong url and to have 'You must submit a valid url'
 2. Test will fail: to pass the test in the controller, we will use Ruby uri mode - require uri in the controller and if params url - then URI::regexp will check if it is a valid url, then Bookmark.create...., else a flash notice will appear to say that user must submit valid url
@@ -211,7 +227,7 @@ I want to update a bookmark
 8. Create a private method .is_url? taking url as a parameter and making the URI check if it is, so we can extract the URI check from the controller
 9. Back to the controller, extract the if statement and refactor the code - all tests should pass now
 
-## User story 5
+## User story 6
 
 ```
 As a user
@@ -245,9 +261,64 @@ I want to add a Comment to a Bookmark
 24. Create variables comments (equals to Comment.where, taking bookmark id as a parameter), comment (which is the comments.first) and the persisted_data that equals itself with parameters table and comment id, querying these data from the database
 25. Expect the length of comments (which is retrieved as an array - remember result of creating a comment) to eq 2, the comment.id to eq persisted_data.first['id'], expect the comment.text to eq 'test comment' and the comment.bookmark_id to eq the bookmark.id - test will fail
 26. We need to update the Comment model to pass the test by creating the method .where, taking the bookmark_id as a parameter, querying a result and mapping the result
-27. Now we need to update the index.erb to handle the Comment model, iterating the comments to print the comment.text
+27. Now we need to update the index.erb to handle the Comment model, iterating the comments to print the comment.text - tests should pass now
+
+## User story 7
+
+```
+As a user
+So that I can categorize my bookmarks
+I want to add a Tag to a Bookmark
+```
+1. Think: to add a tag to a specific bookmark, we need to understand the relatioship between these two classes - a bookmark can have many different tags and different tags can have many bookmarks and bookmarks that are in the other tags
+2. For a many-to-many relationship, we need to construct a join table - this table belongs to more than one model (Bookmark and Tag models), which will take the bookmark_id and the tag_id
+3. First we create a Tags table, then add the join table BookmarksTags - add the commands to the migration file (don't forget to add to the test database as well)
+4. In the setup_test_database, include the created tables
+5. In the controller, add the routes for creating tags: '/bookmarks/:id/tags/new' will take the @bookmark_id = params[:id] and erb: '/tags/new' 
+6. Also in the controller, add a post route '/bookmarks/:id/tags' where a variable tag will be assign to Tag.create(content: params[:tag]), taking content of the tag defined in the database as a parameter
+7. Then we need to create a new BookmarkTag object, passing the bookmark id, tag id as parameters, as specified in the database - this route should then redirect to index.erb (/bookmarks)
+8. Then start a feature test in a new file tag_bookmark_spec.rb, where you create a context with a new bookmark object with url and title, then visit /bookmarks, then in the first .bookmark you can click the button to add tag. 
+9. Expect the current path to eq the route in the controller for adding a new tag
+10. Fill in the tag with a test tag and click submit, expecting then the current path to eq /bookmarks as we are redirecting it, and the first .bookmark to have the content 'test tag' - test will fail as it cannot find the Add Tag button
+11. In index.erb, create a form with the path for creating a new tag and method post, with input type sumbit and value "Add Tag" before the comments section - wrap the comments in a div to make it look better
+12. Create a view new.erb for tags to implement the possibility to add a tag 
+13. Now we need to implement .create a Tag in the model, starting with a unit test for the Tag model: require tag, bookmark and database helpers
+14. Create a tag variable that is assigned to a new tag object with the content parameter, use persisted_data as a variable assigned to itself with the parameters id of tag.id and table tags
+15. Expect tag to be_a Tag, tag.id to eq the persisted_data.first['id'] and the tag.content to eq 'test tag' - will fail as we still don't have the Tag model and the .create method
+16. Create a Tag model file and require database connetion, then implement the .create method with a content parameter where the result will be a database query inserting into tags the content, with values content, returning id and content - then creating a tag object with the result and positions in the array. Test will fail because of argument numbers, so we need to initialise content and id (test still fails because of the route)
+17. Go to the bookmark_spec file and now we will have to create a double for Tag class, as we want to do the same thing we did to comments - call .where on tags (same context in creating a bookmark and expecting it to receive :where with the bookmark_id, then callink bookmarl.tag(tag_class)
+18. Implement the .where method in the Tag model, taking bookmark_id as parameter, mapping the result to create a new tag object with id and content - note that now we definitely need to create the bookmark-tag connection as, when querying from the database, we are selecting from the the bookmarks_tags table and inner joining the tags with the tags.id, that equals bookmarks_tags.tag_id, where the bookmarks_tags.bookmark_id is the actual bookmark unique id
+19. Start by creating a unit test for the BookmarkTag class, to .create a link between the bookmark and tag: contextualize it with a bookmark object and a tag object as well as a bookmark_tag object, expecting the bookmark_tag to be an instance of the class, the bookmark_tag.tag_id to eq the tag.id and the bookmark_tag.bookmark_id to eq bookmark.id
+20. Create the BookmarkTag class and require database_connection
+21. Define a .create method taking bookmark_id and tag_id as parameters. Result should be the database connection querying to insert into the bookmarks_tags table the parameters passed, returning these parameters. 
+22. Then instantiate the the BookmarkTag, retrieving the result from the database - don't forget to initialise the parameters. Tests still fail as we haven't passed the tags to the Bookmark Model
+23. Start with writing a unit test for the Tag Class, to describe .where, returning the tags lonked to specific bookmark
+24. Create the context by creating the bookmark instance, creating 2 different tags and creating the connection between the two with BookmarkTag 
+25. Create a tags variable and call .where on an instance of Tag, taking bookmark_id as a parameter and create a tag variable which equals tags.first, expecting tags.legth to eq 2, tag to be a Tag, tag.id to eq tag1.id and tag content to eq tag1.content 
+26. In the Bookmark Model, create the method tags taking Tag Class as parameter, and call .where on the tag_class taking bookmark_id as parameter
+27. In index.erb, create another div underneath the comments code and replicate the comments code, but specific for tags - tests should pass now 
 
 
+
+
+
+
+
+
+
+
+As a user
+So that I can find relevant bookmarks
+I want to filter Bookmarks by a Tag
+As a user
+So that I can have a personalised bookmark list
+I want to sign up with my email address
+As a user
+So that I can keep my account secure
+I want to sign in with my email and password
+As a user
+So that I can keep my account secure
+I want to sign out
 
 
 
