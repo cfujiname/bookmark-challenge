@@ -25,6 +25,7 @@
         <form action="/bookmarks/<%= bookmark.id %>/tags/new" method="get" >
           <input type='submit' value='Add Tag'/>
         </form>
+        <% if bookmark.comments.length > 0 %>
         <div>
           <h2> Comments </h2>
           <ul>
@@ -33,6 +34,7 @@
               <% end %>
           </ul>
         </div>  
+        <% end %>
         <% if bookmark.tags.length > 0%>
           <div>
             <h2> Tags </h2>

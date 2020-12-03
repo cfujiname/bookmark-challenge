@@ -345,6 +345,11 @@ I want to sign up with my email address
 11. Now, create a test for the method .find in user_spec: it should find a user by its id. Create the context by creating a new instace of User with the parameters email and password. The result should call .find in the user by its id, then expect the result.id to eq user.id and the result.email to eq user.email
 12. Implement the .find method in the User model, taking id parameter - the result will query the database users where by its id
 13. Tests fail as we also need to handle the case where session is nil in the test and implement the clause in the model - tests should pass now
+14. At the moment, we are saving the password as a normal string - so we need to encrypt it - add gem 'bcrypt' and then we need to update the .create method in the user, starting by a unit test
+15. BCrypt hashes through the password and encrypts it with an algo - so we need to implement this in our test and model, requiring bcrypt in the model
+16. In the User model, add a variable encrypted_password in the create method that equals BCrypt::Password.create(password) and change the query to use the encrypted_password instead of just the password
+17. Note that if we try to delete the bookmark now in our page, 
+
 
 
 

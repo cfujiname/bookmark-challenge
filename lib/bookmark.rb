@@ -1,4 +1,4 @@
-require_relative 'database_connection'
+require_relative './database_connection'
 require 'uri'
 require_relative './comment'
 require_relative './tag'
