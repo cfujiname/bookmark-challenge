@@ -364,6 +364,9 @@ I want to sign in and out
 4. Create a route for the form submission as well in app.rb with a query from database that searches the email data from the users table - the user we want to find, then call the session with the user id and redirect to the main index page
 5. We can refactor the controller now to, instead of retrieving the data in the controller, to accept a method .autheticate called in the User instance, which takes email and password as parameters - that will make the test fail as we need to then implement the .autheticate in the User model, stating by writing a test
 6. Implement the method in the model
+7. Now we need to work on the failing sign-ins: start with a feature test where user does not exist (email does not exist)
+8. Implement now a unit test that returns nil if email is incorrect and a clause guard in the model to mimic the test
+9. And finally upgrade the controller to accept the failed login with a flash notice - implement the flash notice in the view as well
 
 
 
