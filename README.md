@@ -367,6 +367,7 @@ I want to sign in and out
 7. Now we need to work on the failing sign-ins: start with a feature test where user does not exist (email does not exist)
 8. Implement now a unit test that returns nil if email is incorrect and a clause guard in the model to mimic the test
 9. And finally upgrade the controller to accept the failed login with a flash notice - implement the flash notice in the view as well
+10. For the wrong password, the logic is the same as above, but remember to use bcrypt for the password - feature -> unit -> model
 
 
 
