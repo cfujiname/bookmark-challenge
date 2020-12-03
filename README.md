@@ -324,7 +324,7 @@ I want to filter Bookmarks by a Tag
 13. Now we need to change the views: in bookmarks/index.erb, above the Tags section, add an if statement (coming from the query) that will check if the bookmarks.tags.length > 0, then Tags can be shown (iterate through bookmark.tag) and print a link with /tags/tag ig/bookmarks and then tag content. 
 14. We still need to create a index.erb for tags and iterate @tag.bookmarks.each do |bookmark|, printing then the bookmark.url with the title as the linked object 
 
-## User story 9
+## User story 9 and 10
 
 ```
 As a user
@@ -348,22 +348,28 @@ I want to sign up with my email address
 14. At the moment, we are saving the password as a normal string - so we need to encrypt it - add gem 'bcrypt' and then we need to update the .create method in the user, starting by a unit test
 15. BCrypt hashes through the password and encrypts it with an algo - so we need to implement this in our test and model, requiring bcrypt in the model
 16. In the User model, add a variable encrypted_password in the create method that equals BCrypt::Password.create(password) and change the query to use the encrypted_password instead of just the password
-17. Note that if we try to delete the bookmark now in our page, 
 
 
+## User story 11
 
-
-
-
-
-
-
+```
 As a user
 So that I can keep my account secure
-I want to sign in with my email and password
-As a user
-So that I can keep my account secure
-I want to sign out
+I want to sign in and out
+```
+
+1. For this user story, we need to take a look at the edge cases as well: when user signs in with correct email and password and when user puts either password or email incorrect
+2. First, let's create a successful sign-in starting with a feature test for it - creating a new file authentication_spec 
+3. To pass the feature test, we need to create a new route in the controller with the session and add a new view sessions/new.erb file
+4. Create a route for the form submission as well in app.rb with a query from database that searches the email data from the users table - the user we want to find, then call the session with the user id and redirect to the main index page
+5. 
+
+
+
+
+
+
+
 
 
 
