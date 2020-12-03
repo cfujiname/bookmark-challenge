@@ -3,8 +3,11 @@ require_relative './database_connection'
 class Tag
 
   def self.create(content:)
-    result = DatabaseConnection.query("INSERT INTO tags (content) VALUES('#{content}') RETURNING id, content;")
-    Tag.new(id: result[0]['id'], content: result[0]['content'])
+    result = DatabaseConnection.query("SELECT * FROM tags WHERE content = '#{content}';").first
+    if !result
+      result = DatabaseConnection.query("INSERT INTO tags (content) VALUES('#{content}') RETURNING id, content;").first
+    end
+    Tag.new(id: result['id'], content: result['content'])
   end
 
   def self.where(bookmark_id:)
@@ -14,10 +17,19 @@ class Tag
     end
   end
 
+  def self.find(id:)
+    result =  DatabaseConnection.query("SELECT * FROM tags WHERE id = #{id};")
+    Tag.new(id: result[0]['id'], content: result[0]['content'])
+  end
+
   attr_reader :id, :content
 
   def initialize(id:, content:)
     @id = id
     @content = content
+  end
+
+  def bookmarks(bookmark_class = Bookmark)
+    bookmark_class.where(tag_id: id)
   end
 end

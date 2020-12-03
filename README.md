@@ -298,18 +298,41 @@ I want to add a Tag to a Bookmark
 26. In the Bookmark Model, create the method tags taking Tag Class as parameter, and call .where on the tag_class taking bookmark_id as parameter
 27. In index.erb, create another div underneath the comments code and replicate the comments code, but specific for tags - tests should pass now 
 
+## User story 8
 
-
-
-
-
-
-
-
-
+```
 As a user
 So that I can find relevant bookmarks
 I want to filter Bookmarks by a Tag
+```
+
+1. For this, start by creating a route for the tags/:id/bookmarks in the controller, where @tag equals to an instance of Tag with method .find, taking id as parameter - in a view called tags/index
+2. Move to your first feature test in tag_bookmark_spec: write a feature that the user can filter bookmark by tag, creating the context first (create 3 bookmarks), visit the /bookmarks route, within page.find('.bookmark:nth-of-type(1)') do click_button 'Add Tag' end, then fill in the tag and  click a button 'Submit' - repeat for a secont bookmark, adding the same tag content. Then, first .bookmark.click_link 'testing'  - which is the testing tag. Expect the page to have the links 1 and 2 that have the tag and not to have the link where no tag was added.
+3. In tag_spec, we need to then create a test for the method .find, returning a tag with a specific id - create a tag instance, define a variable result which calls .find by id on the tag, then expect the result id to eq tag.id and the result.content to eq tag.content
+4. In the Tag model, implement the .find method, taking id as parameter. The result will query database selecting from tags table where id is the specific id  
+5. Now we need to check the existence of a tag. So, in tag_spec, we need to refactor the .create method to accept this criteria
+4. In tag_spec create a double of the bookmark class. The context now will be if tag exists or not, so refactor the code according to the situation and expecting the tag2.id to eq tag1.id if the context means that the tag already exists
+5. Implement this refactor in the model Tag - changing the result to query Select from and tags where the content is the content, and calling .first in the query
+6. If !result, then the query will insert the content into tags, returning id and content and also .first
+7. Back to the test, we need to describe the method #bookmarks in the tag, to enable calling .where on the Bookmark model - expecting the double bookmark class to receive :where with the tag id
+7. We also need to define bookmarks in the class Tag, taking the bookmark_class as a parameter - calling the method .where in it, taking the tag_id as a parameter
+8. Now we need to pass the method .where to Bookmark model as we doubled it in the Tag Model, so the bookmarks with the given tag can be retrieved
+9. Create a test in bookmark_spec for the method .where: it should return the bookmarks with a certain tag
+10. Create a new Bookmark object assigned to a variable, then create 2 tags with different contents, creating then 2 connections bookmarktag. Varialbe bookmarks should then call .where on a Bookmark object, taking the tag id as parameter, and the result would retrieve bookmarks.first. Expect bookmarks.length to eq 1 and the result to be a bookmark, the result.id to eq bookmark.id, result.title to eq bookmark.title and result.url to eq bookmark.url
+11. Implement the method .wuere in the Bookmark model, taking tag id as parameter and querying from the database, selecting id, title and url from the join table bookmarks_tags, inner join bookmarks ON bookmarks.id = bookmarks_tags.bookmark_id where bookmarks_tags.tags_id will be then the tag_id
+12. Map the result to then create a new instance with the bookmaks parameters
+13. Now we need to change the views: in bookmarks/index.erb, above the Tags section, add an if statement (coming from the query) that will check if the bookmarks.tags.length > 0, then Tags can be shown (iterate through bookmark.tag) and print a link with /tags/tag ig/bookmarks and then tag content. 
+14. We still need to create a index.erb for tags and iterate @tag.bookmarks.each do |bookmark|, printing then the bookmark.url with the title as the linked object 
+
+
+
+
+
+
+
+
+
+
 As a user
 So that I can have a personalised bookmark list
 I want to sign up with my email address
