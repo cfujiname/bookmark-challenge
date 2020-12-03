@@ -362,7 +362,8 @@ I want to sign in and out
 2. First, let's create a successful sign-in starting with a feature test for it - creating a new file authentication_spec 
 3. To pass the feature test, we need to create a new route in the controller with the session and add a new view sessions/new.erb file
 4. Create a route for the form submission as well in app.rb with a query from database that searches the email data from the users table - the user we want to find, then call the session with the user id and redirect to the main index page
-5. 
+5. We can refactor the controller now to, instead of retrieving the data in the controller, to accept a method .autheticate called in the User instance, which takes email and password as parameters - that will make the test fail as we need to then implement the .autheticate in the User model, stating by writing a test
+6. Implement the method in the model
 
 
 
