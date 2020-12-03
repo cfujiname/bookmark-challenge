@@ -324,18 +324,35 @@ I want to filter Bookmarks by a Tag
 13. Now we need to change the views: in bookmarks/index.erb, above the Tags section, add an if statement (coming from the query) that will check if the bookmarks.tags.length > 0, then Tags can be shown (iterate through bookmark.tag) and print a link with /tags/tag ig/bookmarks and then tag content. 
 14. We still need to create a index.erb for tags and iterate @tag.bookmarks.each do |bookmark|, printing then the bookmark.url with the title as the linked object 
 
+## User story 9
 
-
-
-
-
-
-
-
-
+```
 As a user
 So that I can have a personalised bookmark list
 I want to sign up with my email address
+```
+
+1. For the user to be able to register, we need to first create a users table to keep user data like email and password
+2. Create the users table and create the migration file for it and update the setup_test_database file as well to accept the users table
+3. Now start with the feature test in a new file registration_spec: users will be created by filling out a form with fields email and password, and the route we create is users/new 
+4. For this route, we need to go to the controller and create the get and post routes and pass to the post a new instance of User with email and password as params
+5. Create a new view users/new.erb and insert the form necessary
+6. Create a user_spec and start by testing the .create method with persisted data as usual, requiring database helpers
+7. Create a User model and implement the .create method - all these steps very similar to the bookmark creation, querying insert into the table the values and returning a user id and email. Initialise the parameters
+8. Now implement the welcome user view in bookmarks/index.erb using a @user variable - that needs to be implemented in the controller
+9. Go to the controller and store the id of the instance User in a session where we call post user.Create : the session takes the user_id as a parameter  
+10. We change then the first bookmarks route to accept as well @user = User.find(session[:user_id]) because we will need to find a specific user by its id.
+11. Now, create a test for the method .find in user_spec: it should find a user by its id. Create the context by creating a new instace of User with the parameters email and password. The result should call .find in the user by its id, then expect the result.id to eq user.id and the result.email to eq user.email
+12. Implement the .find method in the User model, taking id parameter - the result will query the database users where by its id
+13. Tests fail as we also need to handle the case where session is nil in the test and implement the clause in the model - tests should pass now
+
+
+
+
+
+
+
+
 As a user
 So that I can keep my account secure
 I want to sign in with my email and password
